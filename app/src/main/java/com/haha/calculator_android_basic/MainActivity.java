@@ -1,7 +1,10 @@
 package com.haha.calculator_android_basic;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -10,8 +13,8 @@ import java.text.DecimalFormat;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    Button buttonAC, buttonAddSub, buttonPercent, buttonDiv, button7,button8,button9,buttonMul,button4,
-            button5,button6,buttonSub,button1,button2,button3,buttonAdd,button0, buttonDot,buttonEqual;
+    Button buttonAC, buttonAddSub, buttonPercent, buttonDiv, button7, button8, button9, buttonMul, button4,
+            button5, button6, buttonSub, button1, button2, button3, buttonAdd, button0, buttonDot, buttonEqual;
     TextView textViewResult;
     private final int ADD = 1;
     private final int SUB = 2;
@@ -24,20 +27,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int operation = 0;
     boolean isOperation = false;
     boolean isFirst = false;
+    SharedPreferences shared;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Init();
-        textViewResult.setText(df.format(s_result));
+
         isFirst = true;
-        var1 = 0; var2 = 0;
+        var1 = 0;
+        var2 = 0;
         setOnClick();
+        String result = textViewResult.getText().toString();
+        shared = getSharedPreferences("SaveData", MODE_PRIVATE);
+        result = shared.getString("result", String.valueOf(0));
+        textViewResult.setText(result);
+
 
     }
 
     private void Init() {
-        button0 = (Button)  findViewById(R.id.btn0);
+        button0 = (Button) findViewById(R.id.btn0);
         button1 = (Button) findViewById(R.id.btn1);
         button2 = (Button) findViewById(R.id.btn2);
         button3 = (Button) findViewById(R.id.btn3);
@@ -58,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonAdd = (Button) findViewById(R.id.btnAdd);
         textViewResult = (TextView) findViewById(R.id.txtResult);
     }
+
     private void setOnClick() {
         button0.setOnClickListener(this);
         button1.setOnClickListener(this);
@@ -80,11 +92,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonPercent.setOnClickListener(this);
     }
 
-    private String getNumFromKey(int id)
-    {
+    private String getNumFromKey(int id) {
         String temp = "";
-        switch(id)
-        {
+        switch (id) {
             case 1:
                 temp = "1";
                 break;
@@ -121,21 +131,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         String txt = textViewResult.getText().toString();
-        if( txt.equalsIgnoreCase("0") && !temp.equals("."))
-        {
+        if (txt.equalsIgnoreCase("0") && !temp.equals(".")) {
             txt = "";
         }
 
-        if(!isOperation)
+        if (!isOperation)
             temp = txt + temp;
         else
             isOperation = false;
 
         return temp;
     }
+
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn0:
                 textViewResult.setText(getNumFromKey(0));
                 break;
@@ -167,8 +177,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 textViewResult.setText(getNumFromKey(9));
                 break;
             case R.id.btnDot:
-                if (!textViewResult.getText().toString().contains("."))
-                {
+                if (!textViewResult.getText().toString().contains(".")) {
                     textViewResult.setText(getNumFromKey(-1));
                 }
                 break;
@@ -176,85 +185,83 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 isFirst = true;
                 isOperation = false;
                 s_result = 0;
-                textViewResult.setText(df.format(s_result)+"");
+                textViewResult.setText(df.format(s_result) + "");
                 break;
             case R.id.btnPercent:
-                if (textViewResult.length()!=0){
-                    textViewResult.setText(Double.parseDouble(textViewResult.getText().toString())/100 +"");}
+                if (textViewResult.length() != 0) {
+                    textViewResult.setText(Double.parseDouble(textViewResult.getText().toString()) / 100 + "");
+                }
                 break;
             case R.id.btnAddSub:
-                if (textViewResult.length()!=0){
-                    textViewResult.setText(df.format(Double.parseDouble(textViewResult.getText().toString())*(-1))+"");}
+                if (textViewResult.length() != 0) {
+                    textViewResult.setText(df.format(Double.parseDouble(textViewResult.getText().toString()) * (-1)) + "");
+                }
                 break;
             case R.id.btnAdd:
                 isOperation = true;
                 add = true;
-                if(isFirst)
-                {
+                if (isFirst) {
                     var1 = Double.parseDouble(textViewResult.getText().toString());
-                    textViewResult.setText(df.format(var1)+ "");
-                }else {
+                    textViewResult.setText(df.format(var1) + "");
+                } else {
                     var2 = Double.parseDouble(textViewResult.getText().toString());
                     s_result = calculator(operation, var1, var2);
                     textViewResult.setText(df.format(s_result) + "");
                     var1 = s_result;
                 }
                 operation = ADD;
-                isFirst=false;
+                isFirst = false;
                 break;
             case R.id.btnSub:
                 isOperation = true;
                 sub = true;
-                if(isFirst)
-                {
+                if (isFirst) {
                     var1 = Double.parseDouble(textViewResult.getText().toString());
                     textViewResult.setText(df.format(var1) + "");
-                }else {
+                } else {
                     var2 = Double.parseDouble(textViewResult.getText().toString());
                     s_result = calculator(operation, var1, var2);
                     textViewResult.setText(df.format(s_result) + "");
                     var1 = s_result;
                 }
                 operation = SUB;
-                isFirst=false;
+                isFirst = false;
                 break;
             case R.id.btnMul:
                 isOperation = true;
                 mul = true;
-                if(isFirst)
-                {
+                if (isFirst) {
                     var1 = Double.parseDouble(textViewResult.getText().toString());
                     textViewResult.setText(df.format(var1) + "");
-                }else {
+                } else {
                     var2 = Double.parseDouble(textViewResult.getText().toString());
                     s_result = calculator(operation, var1, var2);
                     textViewResult.setText(df.format(s_result) + "");
                     var1 = s_result;
                 }
                 operation = MUL;
-                isFirst=false;
+                isFirst = false;
                 break;
             case R.id.btnDiv:
                 isOperation = true;
                 div = true;
 
-                if(isFirst)
-                {
+                if (isFirst) {
                     var1 = Double.parseDouble(textViewResult.getText().toString());
                     textViewResult.setText(df.format(var1) + "");
-                }else {
+                } else {
                     var2 = Double.parseDouble(textViewResult.getText().toString());
                     s_result = calculator(operation, var1, var2);
                     textViewResult.setText(df.format(var1) + "");
                     var1 = s_result;
                 }
                 operation = DIV;
-                isFirst=false;
+                isFirst = false;
                 break;
             case R.id.btnEqual:
                 isOperation = true;
                 var2 = Double.parseDouble(textViewResult.getText().toString());
-                isFirst=true;
+                isFirst = true;
                 var2 = Double.parseDouble(textViewResult.getText().toString());
                 s_result = calculator(operation, var1, var2);
                 textViewResult.setText(df.format(s_result) + "");
@@ -263,13 +270,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
-    private Double calculator(int o, double varFirst, double varSecond)
-    {
+    private Double calculator(int o, double varFirst, double varSecond) {
         double resultTemp = 0;
-        switch (o)
-        {
+        switch (o) {
             case ADD:
                 resultTemp = varFirst + varSecond;
                 break;
@@ -287,4 +290,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return resultTemp;
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuClear:
+                textViewResult.setText("");
+                break;
+            case R.id.menuSave:
+                SharedPreferences.Editor editer = shared.edit();
+                editer.putString("result", textViewResult.getText().toString());
+                editer.commit();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
