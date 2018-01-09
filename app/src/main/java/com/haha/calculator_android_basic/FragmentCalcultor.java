@@ -22,21 +22,21 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class FragmentCalcultor extends Fragment implements View.OnClickListener {
-    Button buttonAC, buttonAddSub, buttonPercent, buttonDiv, button7, button8, button9, buttonMul, button4,
-            button5, button6, buttonSub, button1, button2, button3, buttonAdd, button0, buttonDot, buttonEqual;
-    TextView textViewResult;
+    Button btnAC, btnAddSub, btnPercent, btnDiv, btn7, btn8, btn9, btnMul, btn4,
+            btn5, btn6, btnSub, btn1, btn2, btn3, btnAdd, btn0, btnDot, btnEqual;
+    TextView txtResult;
     private final int ADD = 1;
     private final int SUB = 2;
     private final int MUL = 3;
     private final int DIV = 4;
-    DecimalFormat df = new DecimalFormat("###.#######");
-    double var1, var2;
-    boolean add, sub, div, mul;
-    static double s_result = 0;
-    int operation = 0;
-    boolean isOperation = false;
-    boolean isFirst = false;
-    SharedPreferences shared;
+    private DecimalFormat df = new DecimalFormat("###.#######");
+    private double var1, var2;
+    private boolean add, sub, div, mul;
+    private static double s_result = 0;
+    private int operation = 0;
+    private boolean isOperation = false;
+    private boolean isFirst = false;
+    private SharedPreferences shared;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,60 +46,59 @@ public class FragmentCalcultor extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calculator,container,false);
-        Init(view);
-
+        init(view);
         isFirst = true;
         var1 = 0;
         var2 = 0;
         setOnClick();
-        String result = textViewResult.getText().toString();
+        String result = txtResult.getText().toString();
         shared = getActivity().getSharedPreferences("SaveData", MODE_PRIVATE);
         result = shared.getString("result", String.valueOf(0));
-        textViewResult.setText(result);
+        txtResult.setText(result);
         return view;}
-    private void Init(View view) {
-        button0 = (Button) view.findViewById(R.id.btn0);
-        button1 = (Button) view.findViewById(R.id.btn1);
-        button2 = (Button) view.findViewById(R.id.btn2);
-        button3 = (Button) view.findViewById(R.id.btn3);
-        button4 = (Button) view.findViewById(R.id.btn4);
-        button5 = (Button) view.findViewById(R.id.btn5);
-        button6 = (Button) view.findViewById(R.id.btn6);
-        button7 = (Button) view.findViewById(R.id.btn7);
-        button8 = (Button) view.findViewById(R.id.btn8);
-        button9 = (Button) view.findViewById(R.id.btn9);
-        buttonAC = (Button) view.findViewById(R.id.btnAC);
-        buttonAddSub = (Button) view.findViewById(R.id.btnAddSub);
-        buttonPercent = (Button) view.findViewById(R.id.btnPercent);
-        buttonDiv = (Button) view.findViewById(R.id.btnDiv);
-        buttonMul = (Button) view.findViewById(R.id.btnMul);
-        buttonSub = (Button) view.findViewById(R.id.btnSub);
-        buttonEqual = (Button) view.findViewById(R.id.btnEqual);
-        buttonDot = (Button) view.findViewById(R.id.btnDot);
-        buttonAdd = (Button) view.findViewById(R.id.btnAdd);
-        textViewResult = (TextView) view.findViewById(R.id.txtResult);
+    private void init(View view) {
+        btn0 = (Button) view.findViewById(R.id.btn0);
+        btn1 = (Button) view.findViewById(R.id.btn1);
+        btn2 = (Button) view.findViewById(R.id.btn2);
+        btn3 = (Button) view.findViewById(R.id.btn3);
+        btn4 = (Button) view.findViewById(R.id.btn4);
+        btn5 = (Button) view.findViewById(R.id.btn5);
+        btn6 = (Button) view.findViewById(R.id.btn6);
+        btn7 = (Button) view.findViewById(R.id.btn7);
+        btn8 = (Button) view.findViewById(R.id.btn8);
+        btn9 = (Button) view.findViewById(R.id.btn9);
+        btnAC = (Button) view.findViewById(R.id.btnAC);
+        btnAddSub = (Button) view.findViewById(R.id.btnAddSub);
+        btnPercent = (Button) view.findViewById(R.id.btnPercent);
+        btnDiv = (Button) view.findViewById(R.id.btnDiv);
+        btnMul = (Button) view.findViewById(R.id.btnMul);
+        btnSub = (Button) view.findViewById(R.id.btnSub);
+        btnEqual = (Button) view.findViewById(R.id.btnEqual);
+        btnDot = (Button) view.findViewById(R.id.btnDot);
+        btnAdd = (Button) view.findViewById(R.id.btnAdd);
+        txtResult = (TextView) view.findViewById(R.id.txtResult);
     }
 
     private void setOnClick() {
-        button0.setOnClickListener(this);
-        button1.setOnClickListener(this);
-        button2.setOnClickListener(this);
-        button3.setOnClickListener(this);
-        button4.setOnClickListener(this);
-        button5.setOnClickListener(this);
-        button6.setOnClickListener(this);
-        button7.setOnClickListener(this);
-        button8.setOnClickListener(this);
-        button9.setOnClickListener(this);
-        buttonAC.setOnClickListener(this);
-        buttonDot.setOnClickListener(this);
-        buttonAdd.setOnClickListener(this);
-        buttonSub.setOnClickListener(this);
-        buttonMul.setOnClickListener(this);
-        buttonDiv.setOnClickListener(this);
-        buttonEqual.setOnClickListener(this);
-        buttonAddSub.setOnClickListener(this);
-        buttonPercent.setOnClickListener(this);
+        btn0.setOnClickListener(this);
+        btn1.setOnClickListener(this);
+        btn2.setOnClickListener(this);
+        btn3.setOnClickListener(this);
+        btn4.setOnClickListener(this);
+        btn5.setOnClickListener(this);
+        btn6.setOnClickListener(this);
+        btn7.setOnClickListener(this);
+        btn8.setOnClickListener(this);
+        btn9.setOnClickListener(this);
+        btnAC.setOnClickListener(this);
+        btnDot.setOnClickListener(this);
+        btnAdd.setOnClickListener(this);
+        btnSub.setOnClickListener(this);
+        btnMul.setOnClickListener(this);
+        btnDiv.setOnClickListener(this);
+        btnEqual.setOnClickListener(this);
+        btnAddSub.setOnClickListener(this);
+        btnPercent.setOnClickListener(this);
     }
 
     private String getNumFromKey(int id) {
@@ -140,7 +139,7 @@ public class FragmentCalcultor extends Fragment implements View.OnClickListener 
                 break;
         }
 
-        String txt = textViewResult.getText().toString();
+        String txt = txtResult.getText().toString();
         if (txt.equalsIgnoreCase("0") && !temp.equals(".")) {
             txt = "";
         }
@@ -157,66 +156,66 @@ public class FragmentCalcultor extends Fragment implements View.OnClickListener 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn0:
-                textViewResult.setText(getNumFromKey(0));
+                txtResult.setText(getNumFromKey(0));
                 break;
             case R.id.btn1:
-                textViewResult.setText(getNumFromKey(1));
+                txtResult.setText(getNumFromKey(1));
                 break;
             case R.id.btn2:
-                textViewResult.setText(getNumFromKey(2));
+                txtResult.setText(getNumFromKey(2));
                 break;
             case R.id.btn3:
-                textViewResult.setText(getNumFromKey(3));
+                txtResult.setText(getNumFromKey(3));
                 break;
             case R.id.btn4:
-                textViewResult.setText(getNumFromKey(4));
+                txtResult.setText(getNumFromKey(4));
                 break;
             case R.id.btn5:
-                textViewResult.setText(getNumFromKey(5));
+                txtResult.setText(getNumFromKey(5));
                 break;
             case R.id.btn6:
-                textViewResult.setText(getNumFromKey(6));
+                txtResult.setText(getNumFromKey(6));
                 break;
             case R.id.btn7:
-                textViewResult.setText(getNumFromKey(7));
+                txtResult.setText(getNumFromKey(7));
                 break;
             case R.id.btn8:
-                textViewResult.setText(getNumFromKey(8));
+                txtResult.setText(getNumFromKey(8));
                 break;
             case R.id.btn9:
-                textViewResult.setText(getNumFromKey(9));
+                txtResult.setText(getNumFromKey(9));
                 break;
             case R.id.btnDot:
-                if (!textViewResult.getText().toString().contains(".")) {
-                    textViewResult.setText(getNumFromKey(-1));
+                if (!txtResult.getText().toString().contains(".")|| txtResult.length()==0) {
+                    txtResult.setText(getNumFromKey(-1));
                 }
                 break;
             case R.id.btnAC:
                 isFirst = true;
                 isOperation = false;
                 s_result = 0;
-                textViewResult.setText(df.format(s_result) + "");
+                txtResult.setText(df.format(s_result) + "");
                 break;
             case R.id.btnPercent:
-                if (textViewResult.length() != 0) {
-                    textViewResult.setText(Double.parseDouble(textViewResult.getText().toString()) / 100 + "");
+                if (txtResult.length() != 0) {
+                    txtResult.setText(Double.parseDouble(txtResult.getText().toString()) / 100 + "");
                 }
                 break;
             case R.id.btnAddSub:
-                if (textViewResult.length() != 0) {
-                    textViewResult.setText(df.format(Double.parseDouble(textViewResult.getText().toString()) * (-1)) + "");
+                if (txtResult.length() != 0) {
+                    txtResult.setText(df.format(Double.parseDouble(txtResult.getText().toString()) * (-1)) + "");
                 }
                 break;
             case R.id.btnAdd:
                 isOperation = true;
                 add = true;
                 if (isFirst) {
-                    var1 = Double.parseDouble(textViewResult.getText().toString());
-                    textViewResult.setText(df.format(var1) + "");
+                    var1 = Double.parseDouble(txtResult.getText().toString());
+                    txtResult.setText(df.format(var1) + "");
                 } else {
-                    var2 = Double.parseDouble(textViewResult.getText().toString());
+                    var2 = Double.parseDouble(txtResult.getText().toString());
                     s_result = calculator(operation, var1, var2);
-                    textViewResult.setText(df.format(s_result) + "");
+                    txtResult.setText(df.format(s_result) + "");
                     var1 = s_result;
                 }
                 operation = ADD;
@@ -226,12 +225,12 @@ public class FragmentCalcultor extends Fragment implements View.OnClickListener 
                 isOperation = true;
                 sub = true;
                 if (isFirst) {
-                    var1 = Double.parseDouble(textViewResult.getText().toString());
-                    textViewResult.setText(df.format(var1) + "");
+                    var1 = Double.parseDouble(txtResult.getText().toString());
+                    txtResult.setText(df.format(var1) + "");
                 } else {
-                    var2 = Double.parseDouble(textViewResult.getText().toString());
+                    var2 = Double.parseDouble(txtResult.getText().toString());
                     s_result = calculator(operation, var1, var2);
-                    textViewResult.setText(df.format(s_result) + "");
+                    txtResult.setText(df.format(s_result) + "");
                     var1 = s_result;
                 }
                 operation = SUB;
@@ -241,12 +240,12 @@ public class FragmentCalcultor extends Fragment implements View.OnClickListener 
                 isOperation = true;
                 mul = true;
                 if (isFirst) {
-                    var1 = Double.parseDouble(textViewResult.getText().toString());
-                    textViewResult.setText(df.format(var1) + "");
+                    var1 = Double.parseDouble(txtResult.getText().toString());
+                    txtResult.setText(df.format(var1) + "");
                 } else {
-                    var2 = Double.parseDouble(textViewResult.getText().toString());
+                    var2 = Double.parseDouble(txtResult.getText().toString());
                     s_result = calculator(operation, var1, var2);
-                    textViewResult.setText(df.format(s_result) + "");
+                    txtResult.setText(df.format(s_result) + "");
                     var1 = s_result;
                 }
                 operation = MUL;
@@ -257,12 +256,12 @@ public class FragmentCalcultor extends Fragment implements View.OnClickListener 
                 div = true;
 
                 if (isFirst) {
-                    var1 = Double.parseDouble(textViewResult.getText().toString());
-                    textViewResult.setText(df.format(var1) + "");
+                    var1 = Double.parseDouble(txtResult.getText().toString());
+                    txtResult.setText(df.format(var1) + "");
                 } else {
-                    var2 = Double.parseDouble(textViewResult.getText().toString());
+                    var2 = Double.parseDouble(txtResult.getText().toString());
                     s_result = calculator(operation, var1, var2);
-                    textViewResult.setText(df.format(var1) + "");
+                    txtResult.setText(df.format(var1) + "");
                     var1 = s_result;
                 }
                 operation = DIV;
@@ -270,19 +269,19 @@ public class FragmentCalcultor extends Fragment implements View.OnClickListener 
                 break;
             case R.id.btnEqual:
                 isOperation = true;
-                var2 = Double.parseDouble(textViewResult.getText().toString());
+                var2 = Double.parseDouble(txtResult.getText().toString());
                 isFirst = true;
-                var2 = Double.parseDouble(textViewResult.getText().toString());
+                var2 = Double.parseDouble(txtResult.getText().toString());
                 s_result = calculator(operation, var1, var2);
-                textViewResult.setText(df.format(s_result) + "");
+                txtResult.setText(df.format(s_result) + "");
                 break;
         }
     }
 
 
-    private Double calculator(int o, double varFirst, double varSecond) {
+    private Double calculator(int mark, double varFirst, double varSecond) {
         double resultTemp = 0;
-        switch (o) {
+        switch (mark) {
             case ADD:
                 resultTemp = varFirst + varSecond;
                 break;
@@ -312,11 +311,11 @@ public class FragmentCalcultor extends Fragment implements View.OnClickListener 
      public boolean onOptionsItemSelected(MenuItem item) {
                switch (item.getItemId()) {
                       case R.id.menuClear:
-                                textViewResult.setText("0");
+                                txtResult.setText("0");
                                 break;
                         case R.id.menuSave:
                             SharedPreferences.Editor editer = shared.edit();
-                            editer.putString("result", textViewResult.getText().toString());
+                            editer.putString("result", txtResult.getText().toString());
                             editer.commit();
                             break;
 
